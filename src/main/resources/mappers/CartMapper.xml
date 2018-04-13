@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.com.mmall.dao.CartMapper" >
+<mapper namespace="com.mmall.dao.CartMapper" >
   <resultMap id="BaseResultMap" type="com.mmall.pojo.Cart" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -116,4 +116,52 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByUserId" parameterType="int" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_cart
+    WHERE user_id = #{userId}
+  </select>
+  <select id="selectCartProductCheckedStatusByUserId" parameterType="int" resultType="int">
+    SELECT
+    count(1)
+    FROM mmall_cart
+    WHERE checked = 0 AND user_id = #{userId}
+  </select>
+  <select id="selectByUserIdAndProductId" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_cart
+    WHERE user_id = #{userId} and product_id = #{productId}
+  </select>
+  <delete id="deleteByUserIdAndProductIds" parameterType="map">
+    DELETE FROM mmall_cart
+    WHERE user_id = #{userId}
+    <if test="productIdList != null">
+      and
+      <foreach collection="productIdList" item="productId" separator="," open="product_id in (" close=")">
+          #{productId}
+      </foreach>
+    </if>
+  </delete>
+  <update id="updateCheckedOrUnchecked" parameterType="map">
+    UPDATE mmall_cart
+    SET checked = #{checked}
+    where user_id = #{userId}
+    <if test="productId != null">
+      and product_id = #{productId}
+    </if>
+  </update>
+  <select id="getCartProductCount" parameterType="int" resultType="int">
+    SELECT
+    IFNULL(sum(quantity),0) AS count
+    from mmall_cart
+    WHERE user_id = #{userId}
+  </select>
+  <select id="selectCheckedCartByUserId" parameterType="int" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_cart
+    WHERE user_id = #{userId} and checked = 1
+  </select>
 </mapper>

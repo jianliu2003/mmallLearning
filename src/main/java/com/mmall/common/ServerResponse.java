@@ -18,19 +18,20 @@ public class ServerResponse<T> implements Serializable {
 
     private ServerResponse(int status){
         this.status = status;
-    }
-    private ServerResponse(int status,T data){
+    }      //1
+
+    private ServerResponse(int status,T data){                        //1,3
         this.status = status;
         this.data = data;
     }
 
-    private ServerResponse(int status,String msg,T data){
+    private ServerResponse(int status,String msg,T data){             //1,2,3
         this.status = status;
         this.msg = msg;
         this.data = data;
     }
 
-    private ServerResponse(int status,String msg){
+    private ServerResponse(int status,String msg){                    //1,2
         this.status = status;
         this.msg = msg;
     }
@@ -52,33 +53,36 @@ public class ServerResponse<T> implements Serializable {
     }
 
 
-    public static <T> ServerResponse<T> createBySuccess(){
+    public static <T> ServerResponse<T> createBySuccess(){                      //1
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode());
     }
 
-    public static <T> ServerResponse<T> createBySuccessMessage(String msg){
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),msg);
-    }
-
-    public static <T> ServerResponse<T> createBySuccess(T data){
+    public static <T> ServerResponse<T> createBySuccess(T data){                //1,3
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),data);
     }
 
-    public static <T> ServerResponse<T> createBySuccess(String msg,T data){
+    public static <T> ServerResponse<T> createBySuccess(String msg,T data){     //1,2,3
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),msg,data);
     }
 
+    public static <T> ServerResponse<T> createBySuccessMessage(String msg){     //1,2
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),msg);
+    }
 
-    public static <T> ServerResponse<T> createByError(){
+
+    public static <T> ServerResponse<T> createByError(){                                              //1,2
         return new ServerResponse<T>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getDesc());
     }
 
+    public static <T> ServerResponse<T> createByError(T data){                                        //1,3
+        return new ServerResponse<T>(ResponseCode.ERROR.getCode(),data);
+    }
 
-    public static <T> ServerResponse<T> createByErrorMessage(String errorMessage){
+    public static <T> ServerResponse<T> createByErrorMessage(String errorMessage){                    //1,2
         return new ServerResponse<T>(ResponseCode.ERROR.getCode(),errorMessage);
     }
 
-    public static <T> ServerResponse<T> createByErrorCodeMessage(int errorCode,String errorMessage){
+    public static <T> ServerResponse<T> createByErrorCodeMessage(int errorCode,String errorMessage){   //1,2
         return new ServerResponse<T>(errorCode,errorMessage);
     }
 

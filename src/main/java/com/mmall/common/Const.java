@@ -33,19 +33,21 @@ public class Const {
 
     public enum ProductStatusEnum{
         ON_SALE(1,"在线");
-        private String value;
+
         private int code;
-        ProductStatusEnum(int code,String value){
+        private String value;
+
+        ProductStatusEnum(int code, String value) {
             this.code = code;
             this.value = value;
         }
 
-        public String getValue() {
-            return value;
-        }
-
         public int getCode() {
             return code;
+        }
+
+        public String getValue() {
+            return value;
         }
     }
 
@@ -83,6 +85,8 @@ public class Const {
             throw new RuntimeException("么有找到对应的枚举");
         }
     }
+
+
     public interface  AlipayCallback{
         String TRADE_STATUS_WAIT_BUYER_PAY = "WAIT_BUYER_PAY";
         String TRADE_STATUS_TRADE_SUCCESS = "TRADE_SUCCESS";
@@ -119,6 +123,7 @@ public class Const {
             this.code = code;
             this.value = value;
         }
+
         private String value;
         private int code;
 
